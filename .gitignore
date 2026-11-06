@@ -1,0 +1,12 @@
+.env
+.env.*
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.zip
+*.log
+*.pid
+__pycache__/
+*.pyc
+backups/
