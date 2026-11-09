@@ -391,6 +391,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=main_menu(admin, teacher and not admin, student)
     )
 
+    await update.message.reply_text(
+        "🏠 Bosh sahifaga istalgan vaqtda shu tugma orqali qaytishingiz mumkin.",
+        reply_markup=ReplyKeyboardMarkup(
+            [["🏠 Asosiy menyu"]],
+            resize_keyboard=True,
+            is_persistent=True
+        )
+    )
+
 async def show_subjects(message, prefix="subject", user_id=None):
     current_user_id = user_id if user_id is not None else message.from_user.id
     admin = current_user_id == ADMIN_ID
@@ -3545,6 +3554,17 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not has_access(user.id):
         context.user_data.clear()
         await update.message.reply_text("🔒 Platforma yopiq. Kirish uchun /start ni bosing.")
+        return
+
+    if text == "🏠 Asosiy menyu":
+        context.user_data.clear()
+        teacher = has_teacher_role(user.id)
+        student = has_student_role(user.id)
+
+        await update.message.reply_text(
+            "🦷 MedStudy | UBS — asosiy menyu",
+            reply_markup=main_menu(admin, teacher and not admin, student)
+        )
         return
 
     # YANGI UY VAZIFASI — MATN KIRITISH BOSQICHLARI
